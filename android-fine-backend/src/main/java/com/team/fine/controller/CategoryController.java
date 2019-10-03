@@ -26,6 +26,11 @@ public class CategoryController {
 		service.save(c);
 	}
 
+	@GetMapping("{id}")
+	public Category findById(@PathVariable int id) {
+		return service.findById(id);
+	}
+
 	@GetMapping
 	public List<Category> findAll() {
 		return service.findAll();

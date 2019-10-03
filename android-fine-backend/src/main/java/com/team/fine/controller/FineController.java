@@ -14,7 +14,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.team.fine.dto.FineDTO;
 import com.team.fine.dto.MemberFineDTO;
-import com.team.fine.entity.Fine;
 import com.team.fine.service.FineService;
 
 @RestController
@@ -30,7 +29,7 @@ public class FineController {
 	}
 
 	@GetMapping("{id}")
-	public Fine findById(@PathVariable long id) {
+	public FineDTO findById(@PathVariable long id) {
 		return service.findById(id);
 	}
 

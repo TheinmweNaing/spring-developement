@@ -36,8 +36,8 @@ public class FineService {
 		repo.save(fine);
 	}
 
-	public Fine findById(long id) {
-		return repo.findById(id).orElse(null);
+	public FineDTO findById(long id) {
+		return repo.findById(id).map(FineDTO::new).orElse(null);
 	}
 
 	public List<MemberFineDTO> find(int offset, int limit) {

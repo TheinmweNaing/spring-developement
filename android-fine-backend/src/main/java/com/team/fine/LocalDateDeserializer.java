@@ -1,8 +1,9 @@
 package com.team.fine;
 
 import java.io.IOException;
+import java.time.Instant;
 import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
+import java.time.ZoneId;
 
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -12,7 +13,6 @@ import com.fasterxml.jackson.databind.deser.std.StdDeserializer;
 public class LocalDateDeserializer extends StdDeserializer<LocalDate> {
 
 	private static final long serialVersionUID = 1L;
-	private static final DateTimeFormatter df = DateTimeFormatter.ofPattern("MMM dd, yyyy");
 
 	protected LocalDateDeserializer() {
 		super(LocalDate.class);
@@ -21,8 +21,8 @@ public class LocalDateDeserializer extends StdDeserializer<LocalDate> {
 	@Override
 	public LocalDate deserialize(JsonParser p, DeserializationContext ctxt)
 			throws IOException, JsonProcessingException {
-		if (p.getText() != null && !p.getText().isEmpty()) {
-			return LocalDate.parse(p.getText(), df);
+		if (p.getLongValue() > 0) {
+			return Instant.ofEpochMilli(p.getLongValue()).atZone(ZoneId.systemDefault()).toLocalDate();
 		}
 		return null;
 	}

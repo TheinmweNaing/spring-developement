@@ -16,9 +16,12 @@ public class CategoryService {
 	@Autowired
 	private CategoryRepo repo;
 
-	
 	public void save(Category category) {
 		repo.save(category);
+	}
+	
+	public Category findById(int id) {
+		return repo.findById(id).orElse(null);
 	}
 
 	public List<Category> findAll() {
@@ -28,4 +31,5 @@ public class CategoryService {
 	public void delete(int id) {
 		repo.deleteById(id);
 	}
+	
 }
