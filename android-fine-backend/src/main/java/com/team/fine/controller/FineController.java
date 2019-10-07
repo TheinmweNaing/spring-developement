@@ -1,6 +1,7 @@
 package com.team.fine.controller;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -14,6 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.team.fine.dto.FineDTO;
 import com.team.fine.dto.MemberFineDTO;
+import com.team.fine.dto.ReportDTO;
 import com.team.fine.service.FineService;
 
 @RestController
@@ -34,13 +36,20 @@ public class FineController {
 	}
 
 	@GetMapping
-	public List<MemberFineDTO> find(@RequestParam int offset, @RequestParam int limit) {
-		return service.find(offset, limit);
+	public List<MemberFineDTO> find(
+			@RequestParam(required = false) Optional<Integer> offset, 
+			@RequestParam(required = false) Optional<Integer> limit) {
+		return offset.isPresent() && limit.isPresent() ? service.find(offset.get(), limit.get()) : service.findAll();
 	}
 
 	@DeleteMapping("{id}")
 	public void delete(@PathVariable long id) {
 		service.delete(id);
+	}
+
+	@GetMapping("report")
+	public List<ReportDTO> findReport() {
+		return service.findReport();
 	}
 
 }

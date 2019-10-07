@@ -2,10 +2,7 @@ package com.team.fine.repo.query;
 
 import java.util.Map;
 
-public class MemberFineQuery implements SimpleQuery, Pageable {
-
-	private int offset;
-	private int limit;
+public class MemberFineQuery implements SimpleQuery {
 
 	@Override
 	public String query() {
@@ -16,23 +13,5 @@ public class MemberFineQuery implements SimpleQuery, Pageable {
 	@Override
 	public Map<String, Object> params() {
 		return null;
-	}
-
-	public void setOffset(int offset) {
-		this.offset = offset;
-	}
-
-	public void setLimit(int limit) {
-		this.limit = limit;
-	}
-
-	@Override
-	public int offset() {
-		return offset;
-	}
-
-	@Override
-	public int limit() {
-		return limit;
 	}
 }

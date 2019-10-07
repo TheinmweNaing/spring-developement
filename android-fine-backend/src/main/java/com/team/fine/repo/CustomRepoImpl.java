@@ -23,28 +23,38 @@ public class CustomRepoImpl<T, ID> extends SimpleJpaRepository<T, ID> implements
 
 	@Override
 	public List<T> find(SimpleQuery query) {
+		return find(query, null);
+	}
+
+	@Override
+	public <V> List<V> findVO(SimpleQuery query, Class<V> clazz) {
+		return findVO(query, clazz, null);
+	}
+
+	@Override
+	public List<T> find(SimpleQuery query, Pageable pageable) {
 		TypedQuery<T> typedQuery = em.createQuery(query.query(), getDomainClass());
 		Map<String, Object> params = query.params();
 		if (params != null) {
 			params.forEach(typedQuery::setParameter);
 		}
-		if (query instanceof Pageable) {
-			typedQuery.setFirstResult(((Pageable) query).offset());
-			typedQuery.setMaxResults(((Pageable) query).limit());
+		if (pageable != null) {
+			typedQuery.setFirstResult(pageable.offset());
+			typedQuery.setMaxResults(pageable.limit());
 		}
 		return typedQuery.getResultList();
 	}
 
 	@Override
-	public <V> List<V> findVO(SimpleQuery query, Class<V> clazz) {
+	public <V> List<V> findVO(SimpleQuery query, Class<V> clazz, Pageable pageable) {
 		TypedQuery<V> typedQuery = em.createQuery(query.query(), clazz);
 		Map<String, Object> params = query.params();
 		if (params != null) {
 			params.forEach(typedQuery::setParameter);
 		}
-		if (query instanceof Pageable) {
-			typedQuery.setFirstResult(((Pageable) query).offset());
-			typedQuery.setMaxResults(((Pageable) query).limit());
+		if (pageable != null) {
+			typedQuery.setFirstResult(pageable.offset());
+			typedQuery.setMaxResults(pageable.limit());
 		}
 		return typedQuery.getResultList();
 	}
